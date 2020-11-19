@@ -135,7 +135,7 @@ def archive_old_operations(sender, request, user, **kwargs):
         .filter(user=request.user, site=site)
         .exclude(user_session_key=request.session.session_key)
     )
-    p_operations.update(is_archived=True)
+#     p_operations.update(is_archived=True)
 
 
 @receiver(pre_obj_operation)
@@ -176,7 +176,7 @@ def pre_page_operation_handler(sender, **kwargs):
         p_operations = p_operations.filter(site=site_id)
 
     # Archive all fetched operations
-    p_operations.update(is_archived=True)
+#     p_operations.update(is_archived=True)
 
 
 @receiver(pre_placeholder_operation)
@@ -249,10 +249,10 @@ def update_placeholder_operation(sender, **kwargs):
 
     # Mark any operation from this user's session made on a separate path
     # or made on the current path but not applied as archived.
-    p_operations.filter(
-        ~ Q(origin=kwargs['origin'])
-        | Q(origin=kwargs['origin'], is_applied=False)
-    ).update(is_archived=True)
+#     p_operations.filter(
+#         ~ Q(origin=kwargs['origin'])
+#         | Q(origin=kwargs['origin'], is_applied=False)
+#     ).update(is_archived=True)
 
     # Last, mark any operation made by another user on the current path
     # as archived.
@@ -265,7 +265,7 @@ def update_placeholder_operation(sender, **kwargs):
         .filter(origin=kwargs['origin'], site=site)
         .exclude(user=request.user)
      )
-    foreign_operations.update(is_archived=True)
+#     foreign_operations.update(is_archived=True)
 
 
 class PlaceholderOperation(models.Model):
